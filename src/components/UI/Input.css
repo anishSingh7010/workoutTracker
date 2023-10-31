@@ -1,0 +1,29 @@
+.input {
+  margin-bottom: 1.5rem;
+  text-align: left;
+  }
+  
+.input label {
+  font-weight: bold;
+  margin-right: 1rem;
+}
+
+.input input {
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font: inherit;
+  padding: 10px;
+}
+
+input.field-error {
+  border-color: red;
+}
+
+input:focus {
+  border: 1px solid var(--secondary);
+}
+
+input[type="text"], input[type="email"] { 
+  outline: none;
+}

@@ -1,0 +1,34 @@
+header {
+  display: flex;
+  justify-content: space-around;
+}
+
+header .logo {
+  margin: auto;
+}
+
+#light-theme header {
+  background-color: white;
+}
+
+#dark-theme header {
+  background-color: black;
+}
+
+@media (min-width: 768px) {
+  .hamburger-menu {
+    display: none;
+  }
+
+  .desktop-nav {
+    display: block;
+  }
+
+  header .logo {
+    margin: 0;
+  }
+}
+
+header {
+  transition: background-color 2s;
+}
