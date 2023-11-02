@@ -1,6 +1,16 @@
 :root {
-  --primary: #000;
-  --secondary: green;
+  --light-theme-background: #e4e6eb;
+  --dark-theme-background: #242526;
+
+  --light-theme-font-color: black;
+  --dark-theme-font-color: white;
+}
+
+body,
+html,
+#root,
+.App {
+  height: 100%;
 }
 
 body {
@@ -23,4 +33,13 @@ code {
 
 .hidden {
   visibility: hidden;
+}
+
+/*All theme related transitions will go here*/
+header,
+a,
+button,
+footer {
+  transition: all 2s ease;
+  transition-property: color, background-color, border-color;
 }

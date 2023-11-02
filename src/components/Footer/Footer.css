@@ -1,0 +1,23 @@
+footer {
+  width: 100%;
+  text-align: center;
+  position: relative;
+  padding: 6px;
+  box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+  footer {
+    padding: 10px;
+  }
+}
+
+#light-theme footer {
+  background-color: var(--light-theme-background);
+  color: var(--light-theme-font-color);
+}
+
+#dark-theme footer {
+  background-color: var(--dark-theme-background);
+  color: var(--dark-theme-font-color);
+}

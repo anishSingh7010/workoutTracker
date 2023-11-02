@@ -1,0 +1,21 @@
+header nav a {
+  cursor: pointer;
+  text-decoration: none;
+  padding: 5px 15px;
+  border-radius: 4px;
+  margin: 5px;
+}
+
+#light-theme header nav a {
+  border: 1px solid black;
+  color: black;
+}
+
+#dark-theme header nav a {
+  border: 1px solid white;
+  color: white;
+}
+
+nav {
+  display: flex;
+}

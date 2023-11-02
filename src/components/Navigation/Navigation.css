@@ -1,6 +1,11 @@
 header {
   display: flex;
   justify-content: space-around;
+  min-height: 50px;
+  align-items: center;
+  top: 0;
+  z-index: 10;
+  position: sticky;
 }
 
 header .logo {
@@ -8,14 +13,22 @@ header .logo {
 }
 
 #light-theme header {
-  background-color: white;
+  background-color: var(--light-theme-background);
 }
 
 #dark-theme header {
-  background-color: black;
+  background-color: var(--dark-theme-background);
+}
+
+.logo img {
+  width: 200px;
 }
 
 @media (min-width: 768px) {
+  header {
+    min-height: 60px;
+  }
+
   .hamburger-menu {
     display: none;
   }
@@ -27,8 +40,8 @@ header .logo {
   header .logo {
     margin: 0;
   }
-}
 
-header {
-  transition: background-color 2s;
+  .logo img {
+    width: 300px;
+  }
 }

@@ -1,8 +1,9 @@
 import useInput from '../../hooks/use-input';
 import Input from '../UI/Input';
+import axios from '../../api/axios';
 
 const MIN_PASSWORD_LENGTH = 8;
-const REGISTER_API = 'http://localhost:5000/account/register';
+const REGISTER_ENDPOINT = '/register';
 
 const RegisterForm = () => {
   const {
@@ -27,6 +28,7 @@ const RegisterForm = () => {
     resetError: resetEmailError,
     isValid: emailIsValid,
     setHasError: setEmailHasError,
+    setHasError: setPasswordHasError,
     errorMessage: emailErrorMessage,
     setErrorMessage: setEmailErrorMessage,
   } = useInput((value) => {
@@ -41,7 +43,9 @@ const RegisterForm = () => {
     inputBlurHandler: passwordBlurHandler,
     resetError: resetPasswordError,
     isValid: passwordIsValid,
+    setHasError: setConfirmPasswordHasError,
     errorMessage: passwordErrorMessage,
+    setErrorMessage: setPasswordErrorMessage,
   } = useInput((value) => {
     return value.trim().length >= MIN_PASSWORD_LENGTH;
   }, `Password should have atleast ${MIN_PASSWORD_LENGTH} characters`);
@@ -54,6 +58,7 @@ const RegisterForm = () => {
     resetError: resetConfirmPasswordError,
     isValid: confirmPasswordIsValid,
     errorMessage: confirmPasswordErrorMessage,
+    setErrorMessage: setConfirmPasswordErrorMessage,
   } = useInput((value) => {
     return value.trim() === passwordValue;
   }, 'Passwords do not match');
@@ -77,30 +82,30 @@ const RegisterForm = () => {
       password: passwordValue,
       confirmPassword: confirmPasswordValue,
     };
-    const response = await fetch(REGISTER_API, {
-      method: 'POST',
-      body: JSON.stringify(registerData),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
 
-    if (!response || response?.status === 500) {
-      alert('Something went wrong. Please try again');
-      return;
+    try {
+      await axios.post(REGISTER_ENDPOINT, JSON.stringify(registerData), {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      });
+
+      // all errors handled
+      // redirect to account page
+      alert('User created successfully');
+    } catch (err) {
+      console.log(err);
+      if (!err || err?.response.status === 500) {
+        alert('Something went wrong. Please try again');
+        return;
+      }
+
+      if (err.response.status === 400 || err.response.status === 409) {
+        setErrors(err.response.data);
+        return;
+      }
     }
-
-    const responseJSON = await response.json();
-    console.log(response.status);
-    // array of errors is returned if status code is 400 or 409
-    if (response.status === 400 || response.status === 409) {
-      setErrors(responseJSON);
-      return;
-    }
-
-    // all errors handled
-    // redirect to account page
-    alert('User created successfully');
   };
 
   // set state for error responses
@@ -114,6 +119,14 @@ const RegisterForm = () => {
         case 'name':
           setNameErrorMessage(errorObject.msg);
           setNameHasError(true);
+          break;
+        case 'password':
+          setPasswordErrorMessage(errorObject.msg);
+          setPasswordHasError(true);
+          break;
+        case 'confirmPassword':
+          setConfirmPasswordErrorMessage(errorObject.msg);
+          setConfirmPasswordHasError(true);
           break;
         default:
           break;
