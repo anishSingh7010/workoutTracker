@@ -1,9 +1,14 @@
 import { useContext } from 'react';
-import useInput from '../../hooks/use-input';
-import Input from '../UI/Input';
-import { AuthContext } from '../context/AuthContext';
-import axios from '../../api/axios';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
+import useInput from '../../hooks/use-input';
+import useLoading from '../../hooks/use-loading';
+
+import Loader from '../UI/Loader';
+import Input from '../UI/Input';
+import axios from '../../api/axios';
+import './SigninForm.css';
+import Button from '../UI/Button';
 
 const SIGNIN_ENDPOINT = '/login';
 
@@ -37,6 +42,8 @@ const SigninForm = () => {
     return value.trim().length > 0;
   }, `Please enter a valid password.`);
 
+  const { isLoading, showLoading, hideLoading } = useLoading();
+
   const submitFormHandler = async (event) => {
     event.preventDefault();
 
@@ -54,6 +61,7 @@ const SigninForm = () => {
     };
 
     try {
+      showLoading();
       const response = await axios.post(
         SIGNIN_ENDPOINT,
         JSON.stringify(siginData),
@@ -74,8 +82,6 @@ const SigninForm = () => {
       });
 
       localStorage.setItem('username', response.data.name);
-      // delete on logout or when refresh token expires
-      alert('User logged in successfully');
       navigate('/account');
     } catch (err) {
       if (!err?.response || err?.response?.status === 500) {
@@ -88,6 +94,8 @@ const SigninForm = () => {
         setErrors(err.response.data);
         return;
       }
+    } finally {
+      hideLoading();
     }
   };
 
@@ -110,31 +118,34 @@ const SigninForm = () => {
   const isFormValid = emailIsValid && passwordIsValid;
 
   return (
-    <div className="signin-form-wrapper">
-      <form onSubmit={submitFormHandler}>
-        <Input
-          placeholder="Email*"
-          identifier="email"
-          input={{ type: 'email' }}
-          value={emailValue}
-          hasError={emailHasError}
-          onChangeHandler={emailChangeHandler}
-          onBlurHandler={emailBlurHandler}
-          errorMessage={emailErrorMessage}
-        />
-        <Input
-          placeholder="Password*"
-          identifier="password"
-          input={{ type: 'password' }}
-          value={passwordValue}
-          hasError={passwordHasError}
-          onChangeHandler={passwordChangeHandler}
-          onBlurHandler={passwordBlurHandler}
-          errorMessage={passwordErrorMessage}
-        />
-        <button disabled={!isFormValid ? 'disabled' : ''}>Submit</button>
-      </form>
-    </div>
+    <>
+      <div className="signin-form-wrapper">
+        <form onSubmit={submitFormHandler}>
+          <Input
+            placeholder="Email*"
+            identifier="email"
+            input={{ type: 'email' }}
+            value={emailValue}
+            hasError={emailHasError}
+            onChangeHandler={emailChangeHandler}
+            onBlurHandler={emailBlurHandler}
+            errorMessage={emailErrorMessage}
+          />
+          <Input
+            placeholder="Password*"
+            identifier="password"
+            input={{ type: 'password' }}
+            value={passwordValue}
+            hasError={passwordHasError}
+            onChangeHandler={passwordChangeHandler}
+            onBlurHandler={passwordBlurHandler}
+            errorMessage={passwordErrorMessage}
+          />
+          <Button buttonText="SIGN IN" isDisabled={!isFormValid} />
+        </form>
+      </div>
+      {isLoading && <Loader />}
+    </>
   );
 };
 

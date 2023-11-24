@@ -1,26 +1,33 @@
 import { Link } from 'react-router-dom';
 import './HeroBanner.css';
 import HeroImageDesktop from '../../assets/desktop-hero-image.jpg';
-import HeroImageMobile from '../../assets/mobile-hero-image.jpg';
-import useWindowDimensions from '../../hooks/use-window-dimensions';
+import { AuthContext } from '../context/AuthContext';
+import { useContext } from 'react';
 
 const HeroBanner = () => {
-  const { width } = useWindowDimensions();
+  const { auth } = useContext(AuthContext);
+  let heroText = 'Take your fitness journey to the next level!';
+  let heroButton = 'Sign Up';
+  let heroButtonLink = '/register';
+
+  if (auth.loggedIn) {
+    heroText = `Hi, ${auth.username}! Let's Track Some Workouts!`;
+    heroButton = 'My Account';
+    heroButtonLink = '/account';
+  }
   return (
     <div
       className="hero-banner-wrapper"
       style={{
-        backgroundImage: `url(${
-          width >= 768 ? HeroImageDesktop : HeroImageMobile
-        })`,
+        backgroundImage: `url(${HeroImageDesktop})`,
       }}
     >
+      <div className="hero-banner-overlay"></div>
       <div className="hero-text">
-        HI PLEASE JOIN
-        <button>
-          {/*Different text for logged in users*/}
-          <Link to="/register">Join us</Link>
-        </button>
+        <span>{heroText}</span>
+        <Link className="hero-button" to={heroButtonLink}>
+          {heroButton}
+        </Link>
       </div>
     </div>
   );

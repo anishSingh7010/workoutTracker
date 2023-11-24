@@ -1,8 +1,8 @@
 .input {
   margin-bottom: 1.5rem;
   text-align: left;
-  }
-  
+}
+
 .input label {
   font-weight: bold;
   margin-right: 1rem;
@@ -24,6 +24,11 @@ input:focus {
   border: 1px solid var(--secondary);
 }
 
-input[type="text"], input[type="email"] { 
+input[type='text'],
+input[type='email'] {
   outline: none;
+}
+
+.form-error-message {
+  color: red;
 }

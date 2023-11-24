@@ -16,9 +16,7 @@ const Input = React.forwardRef((props, ref) => {
         className={props.hasError ? 'field-error' : ''}
       />
       {props.hasError && (
-        <span className="form-error-message text-red-500	font-bold">
-          {props.errorMessage}
-        </span>
+        <span className="form-error-message">{props.errorMessage}</span>
       )}
     </div>
   );

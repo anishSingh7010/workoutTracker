@@ -4,11 +4,14 @@
   left: 0;
   width: 100%;
   height: 100vh;
-  z-index: 20;
+  z-index: 40;
   background-color: rgba(0, 0, 0, 0.75);
 }
 
 .modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   position: fixed;
   top: 20vh;
   left: 5%;
@@ -18,8 +21,13 @@
   padding: 1rem;
   border-radius: 14px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
-  z-index: 30;
+  z-index: 50;
   animation: slide-down 300ms ease-out forwards;
+  box-sizing: border-box;
+}
+
+#dark-theme .modal {
+  background-color: var(--dark-theme-background);
 }
 
 @media (min-width: 768px) {

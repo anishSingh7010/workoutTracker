@@ -1,0 +1,7 @@
+.register-header {
+  margin-bottom: 30px;
+}
+
+#dark-theme .register-header p {
+  color: var(--dark-theme-font-color);
+}

@@ -1,7 +1,14 @@
-import RegisterForm from '../components/Register/RegisterForm';
+import HeroBanner from '../components/Homepage/HeroBanner';
 
-const Register = () => {
-  return <div className="home-page"></div>;
+const Homepage = () => {
+  return (
+    <div
+      className="home-page"
+      style={{ margin: 'auto', height: '100%', width: '100%' }}
+    >
+      <HeroBanner />
+    </div>
+  );
 };
 
-export default Register;
+export default Homepage;

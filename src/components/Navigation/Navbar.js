@@ -3,21 +3,23 @@ import ChangeTheme from '../UI/ChangeTheme';
 import './Navbar.css';
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
-import Logout from './Logout/Logout';
+import Logout from '../Logout/Logout';
 
-const Navbar = ({ navItems }) => {
+const Navbar = ({ navItems, onModalClose }) => {
   const { auth } = useContext(AuthContext);
   return (
     <nav>
       {!auth.loggedIn &&
         navItems.map((item) => (
-          <NavLink key={item.name} to={item.link}>
+          <NavLink onClick={onModalClose} key={item.name} to={item.link}>
             {item.name}
           </NavLink>
         ))}
       {auth.loggedIn && (
         <>
-          <NavLink to="/account">Hi {auth.username} My Account</NavLink>
+          <NavLink onClick={onModalClose} to="/account">
+            My Account
+          </NavLink>
           <Logout />
         </>
       )}

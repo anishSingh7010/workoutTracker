@@ -1,0 +1,43 @@
+.register-page h1 {
+  color: var(--light-theme-font-color);
+  transition: color 2s ease;
+}
+
+#dark-theme .register-page h1 {
+  color: var(--dark-theme-font-color);
+}
+
+.register-page .btn {
+  font-size: 16px;
+  color: var(--dark-theme-font-color);
+  background: var(--dark-theme-background);
+  border-radius: 15px;
+  padding: 10px 19px;
+}
+
+.register-page .btn:hover:not(:disabled) {
+  color: var(--light-theme-font-color);
+  background: var(--light-theme-nav-hover-color);
+}
+
+.register-page .btn:disabled {
+  background: var(--light-theme-nav-hover-color);
+}
+
+#dark-theme .register .btn:hover:not(:disabled) {
+  background: var(--dark-theme-nav-hover-color);
+  color: var(--dark-theme-font-color);
+}
+
+.registration-modal {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column-reverse;
+}
+
+.registration-modal .modal-close {
+  align-self: flex-end;
+}

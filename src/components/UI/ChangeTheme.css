@@ -1,6 +1,6 @@
 .dark_mode_label {
-  width: 65px;
-  height: 30px;
+  width: 47px;
+  height: 23px;
   position: relative;
   display: block;
   background: #ebebeb;
@@ -13,8 +13,8 @@
 }
 .dark_mode_label:after {
   content: '';
-  width: 25px;
-  height: 25px;
+  width: 17px;
+  height: 17px;
   position: absolute;
   top: 3px;
   left: 3px;
@@ -32,7 +32,7 @@
   background: #242424;
 }
 .dark_mode_input:checked + .dark_mode_label:after {
-  left: 62px;
+  left: 44px;
   transform: translateX(-100%);
   background: linear-gradient(180deg, #777, #3a3a3a);
 }
@@ -42,7 +42,7 @@
 
 .dark_mode_label svg {
   position: absolute;
-  width: 20px;
+  width: 13px;
   top: 5px;
   z-index: 100;
 }
@@ -52,7 +52,7 @@
   transition: 0.3s;
 }
 .dark_mode_label svg.moon {
-  left: 40px;
+  left: 30px;
   fill: #7e7e7e;
   transition: 0.3s;
 }
@@ -61,4 +61,10 @@
 }
 .dark_mode_input:checked + .dark_mode_label svg.moon {
   fill: #fff;
+}
+
+@media (min-width: 768px) {
+  .dark_mode_label {
+    margin-left: 35px;
+  }
 }

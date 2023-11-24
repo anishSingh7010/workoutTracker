@@ -1,6 +1,15 @@
+import { CgClose } from 'react-icons/cg';
 import useInput from '../../hooks/use-input';
 import Input from '../UI/Input';
 import axios from '../../api/axios';
+import './RegisterForm.css';
+import Button from '../UI/Button';
+import useLoading from '../../hooks/use-loading';
+import Loader from '../UI/Loader';
+import Modal from '../UI/Modal';
+import { useState } from 'react';
+import RegistrationModal from './RegistrationModal';
+import { useNavigate } from 'react-router-dom';
 
 const MIN_PASSWORD_LENGTH = 8;
 const REGISTER_ENDPOINT = '/register';
@@ -63,6 +72,38 @@ const RegisterForm = () => {
     return value.trim() === passwordValue;
   }, 'Passwords do not match');
 
+  const { isLoading, showLoading, hideLoading } = useLoading();
+  const [registrationModal, setRegistrationModal] = useState({
+    show: false,
+    successful: false,
+  });
+
+  const navigate = useNavigate();
+
+  const showSuccessfulRegistrationModal = () => {
+    setRegistrationModal({
+      show: true,
+      successful: true,
+    });
+  };
+
+  const showFailureRegistrationModal = () => {
+    setRegistrationModal({
+      show: true,
+      successful: false,
+    });
+  };
+
+  const hideRegistrationModal = () => {
+    if (registrationModal.successful) {
+      navigate('/signin');
+    }
+    setRegistrationModal({
+      show: false,
+      successful: false,
+    });
+  };
+
   const submitFormHandler = async (event) => {
     event.preventDefault();
 
@@ -84,6 +125,7 @@ const RegisterForm = () => {
     };
 
     try {
+      showLoading();
       await axios.post(REGISTER_ENDPOINT, JSON.stringify(registerData), {
         headers: {
           'Content-Type': 'application/json',
@@ -92,19 +134,21 @@ const RegisterForm = () => {
       });
 
       // all errors handled
-      // redirect to account page
-      alert('User created successfully');
+      hideLoading();
+      showSuccessfulRegistrationModal();
     } catch (err) {
-      console.log(err);
-      if (!err || err?.response.status === 500) {
+      if (!err || err?.response?.status === 500) {
         alert('Something went wrong. Please try again');
+        showFailureRegistrationModal();
         return;
       }
 
-      if (err.response.status === 400 || err.response.status === 409) {
+      if (err?.response?.status === 400 || err?.response?.status === 409) {
         setErrors(err.response.data);
         return;
       }
+    } finally {
+      hideLoading();
     }
   };
 
@@ -139,6 +183,7 @@ const RegisterForm = () => {
 
   return (
     <div className="register-form-wrapper">
+      {isLoading && <Loader />}
       <form onSubmit={submitFormHandler}>
         <Input
           placeholder="Name*"
@@ -184,8 +229,18 @@ const RegisterForm = () => {
           onBlurHandler={confirmPasswordBlurHandler}
           errorMessage={confirmPasswordErrorMessage}
         />
-        <button disabled={!isFormValid ? 'disabled' : ''}>Submit</button>
+        <Button buttonText="REGISTER" isDisabled={!isFormValid} />
       </form>
+      {registrationModal.show && (
+        <Modal onClose={hideRegistrationModal}>
+          <div className="registration-modal">
+            <RegistrationModal result={registrationModal.successful} />
+            <button className="modal-close" onClick={hideRegistrationModal}>
+              <CgClose />
+            </button>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 };

@@ -7,10 +7,10 @@ import { ReactComponent as Moon } from '../../assets/Moon.svg';
 const ChangeTheme = () => {
   const { toggleTheme, currentTheme } = useContext(ThemeContext);
   return (
-    <>
+    <div className="dark_mode_wrapper">
       <input
         onChange={toggleTheme}
-        className="dark_mode_input"
+        className="dark_mode_input d-none"
         type="checkbox"
         checked={currentTheme === 'dark-theme'}
         id="darkmode-toggle"
@@ -19,7 +19,7 @@ const ChangeTheme = () => {
         <Sun />
         <Moon />
       </label>
-    </>
+    </div>
   );
 };
 

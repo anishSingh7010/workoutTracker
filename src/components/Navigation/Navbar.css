@@ -1,21 +1,35 @@
-header nav a {
+header nav a,
+header nav .logout-button {
   cursor: pointer;
   text-decoration: none;
   padding: 5px 15px;
-  border-radius: 4px;
+  border-radius: 12px;
   margin: 5px;
+  transition: background-color 0.2s ease;
+  font-size: 16px;
 }
 
-#light-theme header nav a {
-  border: 1px solid black;
+#light-theme header nav a:hover,
+header nav .logout-button:hover {
+  background-color: var(--light-theme-nav-hover-color);
+}
+
+#dark-theme header nav a:hover,
+#dark-theme header nav .logout-button:hover {
+  background-color: var(--dark-theme-nav-hover-color);
+}
+
+#light-theme header nav a,
+header nav .logout-button {
   color: black;
 }
 
-#dark-theme header nav a {
-  border: 1px solid white;
+#dark-theme header nav a,
+#dark-theme header nav .logout-button {
   color: white;
 }
 
 nav {
   display: flex;
+  align-items: center;
 }

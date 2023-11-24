@@ -9,6 +9,7 @@ import Signin from './pages/Signin';
 import { AuthProvider } from './components/context/AuthContext';
 import Account from './pages/Account';
 import Footer from './components/Footer/Footer';
+import Homepage from './pages/Homepage';
 
 export const ThemeContext = createContext();
 function App() {
@@ -26,19 +27,33 @@ function App() {
           element: (
             <>
               <Navigation />
-              <HeroBanner />
+              <Homepage />
               <Footer />
             </>
           ),
           index: true,
         },
         {
+          //TODO: Reroute if user is logged in
           path: '/register',
-          element: <Register />,
+          element: (
+            <>
+              <Navigation />
+              <Register />
+              <Footer />
+            </>
+          ),
         },
         {
+          //TODO: Reroute if user is logged in
           path: '/signin',
-          element: <Signin />,
+          element: (
+            <>
+              <Navigation />
+              <Signin />
+              <Footer />
+            </>
+          ),
         },
         {
           path: '/account',
@@ -66,6 +81,9 @@ function App() {
     <ThemeContext.Provider value={{ toggleTheme, currentTheme }}>
       <AuthProvider>
         <div className="App " id={theme}>
+          <div id="overlay"></div>
+          <div id="backdrop"></div>
+          <div id="loader"></div>
           <RouterProvider router={router} />
         </div>
       </AuthProvider>

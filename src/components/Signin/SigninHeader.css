@@ -1,0 +1,7 @@
+.signin-header {
+  margin-bottom: 30px;
+}
+
+#dark-theme .signin-header p {
+  color: var(--dark-theme-font-color);
+}

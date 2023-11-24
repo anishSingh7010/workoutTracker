@@ -9,7 +9,7 @@ const Modal = (props) => {
         document.getElementById('backdrop')
       )}
       {createPortal(
-        <div className="modal h-1/2">{props.children}</div>,
+        <div className="modal">{props.children}</div>,
         document.getElementById('overlay')
       )}
     </>
