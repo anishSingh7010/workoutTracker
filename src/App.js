@@ -3,61 +3,46 @@ import './App.css';
 import Register from './pages/Register';
 import RootLayout from './components/RootLayout/RootLayout';
 import { createContext, useState } from 'react';
-import Navigation from './components/Navigation/Navigation';
-import HeroBanner from './components/Homepage/HeroBanner';
 import Signin from './pages/Signin';
 import { AuthProvider } from './components/context/AuthContext';
 import Account from './pages/Account';
-import Footer from './components/Footer/Footer';
 import Homepage from './pages/Homepage';
+import ProtectedRoute from './components/WrapperRoutes/ProtectedRoute';
+import UnauthorizedRoute from './components/WrapperRoutes/UnauthorizedRoute';
 
 export const ThemeContext = createContext();
 function App() {
   const router = createBrowserRouter([
     {
       path: '/',
-      element: (
-        <>
-          <RootLayout />
-        </>
-      ),
+      element: <RootLayout />,
       errorElement: <div>WRONG ROUTE</div>,
       children: [
         {
-          element: (
-            <>
-              <Navigation />
-              <Homepage />
-              <Footer />
-            </>
-          ),
+          element: <Homepage />,
           index: true,
         },
         {
-          //TODO: Reroute if user is logged in
-          path: '/register',
-          element: (
-            <>
-              <Navigation />
-              <Register />
-              <Footer />
-            </>
-          ),
+          element: <ProtectedRoute />,
+          children: [
+            {
+              path: '/account',
+              element: <Account />,
+            },
+          ],
         },
         {
-          //TODO: Reroute if user is logged in
-          path: '/signin',
-          element: (
-            <>
-              <Navigation />
-              <Signin />
-              <Footer />
-            </>
-          ),
-        },
-        {
-          path: '/account',
-          element: <Account />,
+          element: <UnauthorizedRoute />,
+          children: [
+            {
+              path: '/register',
+              element: <Register />,
+            },
+            {
+              path: '/signin',
+              element: <Signin />,
+            },
+          ],
         },
       ],
     },

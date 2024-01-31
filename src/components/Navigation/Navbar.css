@@ -10,12 +10,14 @@ header nav .logout-button {
 }
 
 #light-theme header nav a:hover,
-header nav .logout-button:hover {
+#light-theme header nav .logout-button:hover,
+#light-theme header nav a.active {
   background-color: var(--light-theme-nav-hover-color);
 }
 
 #dark-theme header nav a:hover,
-#dark-theme header nav .logout-button:hover {
+#dark-theme header nav .logout-button:hover,
+#dark-theme header nav a.active {
   background-color: var(--dark-theme-nav-hover-color);
 }
 
