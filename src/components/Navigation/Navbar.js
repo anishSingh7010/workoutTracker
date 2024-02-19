@@ -5,7 +5,7 @@ import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import Logout from '../Logout/Logout';
 
-const Navbar = ({ navItems, onModalClose }) => {
+const Navbar = ({ navItems, onModalClose, mobileAccountNavItems = [] }) => {
   const { auth } = useContext(AuthContext);
   return (
     <nav>
@@ -17,6 +17,11 @@ const Navbar = ({ navItems, onModalClose }) => {
         ))}
       {auth.loggedIn && (
         <>
+          {mobileAccountNavItems.map((item) => (
+            <NavLink onClick={onModalClose} key={item.name} to={item.link}>
+              {item.name}
+            </NavLink>
+          ))}
           <NavLink onClick={onModalClose} to="/account">
             My Account
           </NavLink>

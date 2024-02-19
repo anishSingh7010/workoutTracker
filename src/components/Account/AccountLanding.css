@@ -1,0 +1,27 @@
+.account-landing-text {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.add-workout-link {
+  font-size: 24px;
+  color: var(--dark-theme-font-color);
+  background: var(--dark-theme-background);
+  border-radius: 15px;
+  padding: 10px 19px;
+  transition: 1s ease all;
+  text-decoration: none;
+  padding: 20px 30px;
+}
+
+.add-workout-link:hover:not(:disabled) {
+  background: var(--light-theme-nav-hover-color);
+}
+
+.add-workout-link:disabled {
+  background: var(--light-theme-nav-hover-color);
+}
+
+#dark-theme .add-workout-link:hover:not(:disabled) {
+  background: var(--dark-theme-nav-hover-color);
+}

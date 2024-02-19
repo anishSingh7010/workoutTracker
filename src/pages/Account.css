@@ -1,0 +1,11 @@
+.account-page {
+  display: flex;
+  height: 100%;
+}
+
+.account-page .wrapper {
+  margin: 20px auto;
+  @media (min-width: 768px) {
+    margin: 100px auto;
+  }
+}

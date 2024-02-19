@@ -1,0 +1,6 @@
+.exercise-card {
+  width: 100px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+}

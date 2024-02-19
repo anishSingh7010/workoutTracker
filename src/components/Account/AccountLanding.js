@@ -1,20 +1,18 @@
-import useAxiosPrivate from '../../hooks/use-axios-private';
+import { NavLink } from 'react-router-dom';
+import './AccountLanding.css';
+import { useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
 
 const AccountLanding = () => {
-  const WORKOUTS_ENDPOINT = '/workouts';
-  const axiosPrivate = useAxiosPrivate();
-  const sendRequest = async () => {
-    try {
-      const response = await axiosPrivate.get(WORKOUTS_ENDPOINT);
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const { auth } = useContext(AuthContext);
   return (
-    <div>
-      HIIIIIIIIIIIIIIIII
-      <button onClick={sendRequest}></button>
+    <div className="account-landing-wrapper">
+      <div className="account-landing-text">
+        Hi {auth.username}, Start tracking your workouts!
+      </div>
+      <NavLink className="add-workout-link" to="/account/workouts">
+        Add Workout
+      </NavLink>
     </div>
   );
 };

@@ -9,6 +9,9 @@ import Account from './pages/Account';
 import Homepage from './pages/Homepage';
 import ProtectedRoute from './components/WrapperRoutes/ProtectedRoute';
 import UnauthorizedRoute from './components/WrapperRoutes/UnauthorizedRoute';
+import Exercises from './components/Account/Exercises';
+import AccountLanding from './components/Account/AccountLanding';
+import Workouts from './components/Account/Workouts';
 
 export const ThemeContext = createContext();
 function App() {
@@ -28,6 +31,20 @@ function App() {
             {
               path: '/account',
               element: <Account />,
+              children: [
+                {
+                  path: '/account',
+                  element: <AccountLanding />,
+                },
+                {
+                  path: '/account/exercises',
+                  element: <Exercises />,
+                },
+                {
+                  path: '/account/workouts',
+                  element: <Workouts />,
+                },
+              ],
             },
           ],
         },

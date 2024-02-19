@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { CgClose } from 'react-icons/cg';
 
 import ChangeTheme from '../UI/ChangeTheme';
-import Navbar from './Navbar';
+import Navbar from './Navbar.js';
 import './Navigation.css';
 import Modal from '../UI/Modal';
 
@@ -23,6 +23,13 @@ const Navigation = () => {
   const closeModalHandler = () => {
     setIsNavModalOpen(false);
   };
+
+  let mobileAccountNavItems = [
+    { name: 'Add/Show Exercises', link: '/account/exercises' },
+    { name: 'Add/Show Workouts', link: '/account/workouts' },
+    { name: 'Compare Exercises', link: '/account/compare-workouts' },
+    { name: 'Compare Workouts', link: '/account/compare-exercises' },
+  ];
 
   return (
     <header>
@@ -43,7 +50,11 @@ const Navigation = () => {
             <CgClose />
           </button>
           <div className="mobile-nav">
-            <Navbar onModalClose={closeModalHandler} navItems={navItems} />
+            <Navbar
+              onModalClose={closeModalHandler}
+              navItems={navItems}
+              mobileAccountNavItems={mobileAccountNavItems}
+            />
           </div>
         </Modal>
       )}
