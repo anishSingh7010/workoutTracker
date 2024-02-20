@@ -19,9 +19,7 @@ const AddExercise = ({ onSuccess }) => {
     inputBlurHandler: exerciseNameBlurHandler,
     resetError: resetExerciseNameError,
     isValid: exerciseNameIsValid,
-    setHasError: setExerciseNameHasError,
     errorMessage: exerciseNameErrorMessage,
-    setErrorMessage: setExerciseNameErrorMessage,
   } = useInput((value) => {
     return value.trim().length > 0;
   }, 'Please enter a valid exercise name.');

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import useAxiosPrivate from '../../hooks/use-axios-private';
 import useLoading from '../../hooks/use-loading';
 import Loader from '../UI/Loader';
@@ -8,13 +8,14 @@ import Button from '../UI/Button';
 import Modal from '../UI/Modal';
 import { CgClose } from 'react-icons/cg';
 import AddExercise from './AddExercise';
+import { useOutletContext } from 'react-router-dom';
+
+const DELETE_EXERCISE_ENDPOINT = '/account/delete-exercise';
 
 const Exercises = () => {
+  const { exercises, setExercises } = useOutletContext();
   const axiosPrivate = useAxiosPrivate();
-  const [exercises, setExercises] = useState([]);
   const { isLoading, showLoading, hideLoading } = useLoading();
-  const EXERCISE_ENDPOINT = '/account/exercises';
-  const DELETE_EXERCISE_ENDPOINT = '/account/delete-exercise';
   const [isExerciseModalOpen, setIsExerciseModalOpen] = useState(false);
 
   const openModalHandler = () => {
@@ -42,23 +43,6 @@ const Exercises = () => {
     setExercises(exercises);
     closeModalHandler();
   };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // loading start
-        showLoading();
-        const response = await axiosPrivate.get(EXERCISE_ENDPOINT);
-        setExercises(response.data.exercises);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        //loading end
-        hideLoading();
-      }
-    };
-    fetchData();
-  }, []);
 
   return (
     <div

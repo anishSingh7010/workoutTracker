@@ -1,9 +1,18 @@
 import AccountNavigation from '../components/Account/AccountNavigation';
 import { Outlet } from 'react-router-dom';
 import './Account.css';
+import useAxiosPrivate from '../hooks/use-axios-private';
+import { useEffect, useState } from 'react';
+import useLoading from '../hooks/use-loading';
+import Loader from '../components/UI/Loader';
+
+const EXERCISE_ENDPOINT = '/account/exercises';
+const WORKOUTS_ENDPOINT = '/account/workouts';
 
 const Account = () => {
+  const axiosPrivate = useAxiosPrivate();
   const [exercises, setExercises] = useState([]);
+  const [workouts, setWorkouts] = useState([]);
   const { isLoading, showLoading, hideLoading } = useLoading();
 
   useEffect(() => {
@@ -11,8 +20,10 @@ const Account = () => {
       try {
         // loading start
         showLoading();
-        const response = await axiosPrivate.get(EXERCISE_ENDPOINT);
-        setExercises(response.data.exercises);
+        const responseExercises = await axiosPrivate.get(EXERCISE_ENDPOINT);
+        const responseWorkouts = await axiosPrivate.get(WORKOUTS_ENDPOINT);
+        setExercises(responseExercises.data.exercises);
+        setWorkouts(responseWorkouts.data.workouts);
       } catch (error) {
         console.log(error);
       } finally {
@@ -27,7 +38,15 @@ const Account = () => {
     <div className="account-page">
       <AccountNavigation />
       <div className="wrapper">
-        <Outlet />
+        {isLoading && <Loader />}
+        <Outlet
+          context={{
+            exercises,
+            workouts,
+            setExercises,
+            setWorkouts,
+          }}
+        />
       </div>
     </div>
   );

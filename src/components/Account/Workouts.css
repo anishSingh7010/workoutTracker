@@ -1,0 +1,9 @@
+.workout-cards-wrapper .workout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.workout-details-modal {
+  height: auto;
+}

@@ -1,22 +1,27 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import useAxiosPrivate from '../../hooks/use-axios-private';
 import useLoading from '../../hooks/use-loading';
 import Loader from '../UI/Loader';
-import ExerciseCard from '../UI/ExerciseCard';
-import './Exercises.css';
+import './Workouts.css';
 import Button from '../UI/Button';
 import Modal from '../UI/Modal';
 import { CgClose } from 'react-icons/cg';
-import AddExercise from './AddExercise';
-
-const EXERCISE_ENDPOINT = '/account/exercises';
-const WORKOUTS_ENDPOINT = '/account/workouts';
+import { useOutletContext } from 'react-router-dom';
+import WorkoutDetails from './WorkoutDetails';
+import AddWorkout from './AddWorkout';
 
 const Workouts = () => {
   const axiosPrivate = useAxiosPrivate();
-  const [exercises, setExercises] = useState([]);
-  const [workouts, setWorkouts] = useState([]);
+  const { exercises, workouts, setWorkouts } = useOutletContext();
+  // key value pair of exercise id to exercise details object
+  const exerciseMap = {};
+  exercises.forEach((element) => {
+    exerciseMap[element['_id']] = element;
+  });
+
   const { isLoading, showLoading, hideLoading } = useLoading();
+  //workout object to show details
+  const [selectedWorkout, setSelectedWorkout] = useState(null);
 
   const [isWorkoutModalOpen, setIsWorkoutModalOpen] = useState(false);
 
@@ -28,33 +33,27 @@ const Workouts = () => {
     setIsWorkoutModalOpen(false);
   };
 
-  const successHandler = (exercises) => {
+  const openWorkoutDetailsModal = (workoutObj) => {
+    setSelectedWorkout(workoutObj);
+  };
+
+  const closeWorkoutDetailsModal = () => {
+    setSelectedWorkout(null);
+  };
+
+  const successHandler = (workouts) => {
     setWorkouts(workouts);
     closeModalHandler();
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // loading start
-        showLoading();
-        const exercisesResponse = await axiosPrivate.get(EXERCISE_ENDPOINT);
-        const workoutsResponse = await axiosPrivate.get(EXERCISE_ENDPOINT);
-        setExercises(exercisesResponse);
-        setWorkouts(workoutsResponse);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        //loading end
-        hideLoading();
-      }
-    };
-    fetchData();
-  }, []);
-
   return (
     <div
-      style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        padding: '20px',
+      }}
     >
       <h1>EXERCISES</h1>
       <Button
@@ -71,20 +70,45 @@ const Workouts = () => {
           <button className="modal-close" onClick={closeModalHandler}>
             <CgClose />
           </button>
-          {/** AddWORKOUTCOMPONENT */}
+          <AddWorkout onSuccess={successHandler} exercises={exercises} />
         </Modal>
       )}{' '}
       {!isLoading && exercises.length > 0 && (
         <div className="workout-cards-wrapper">
-          {workouts.map((workout) => (
-            // <ExerciseCard
-            //   type={exercise.exerciseType}
-            //   name={exercise.name}
-            //   key={exercise['_id']}
-            //   onClick={deleteExcerciseHandler.bind(null, exercise['_id'])}
-            // />
-            <h1></h1>
-          ))}
+          {workouts.map((workout, index) => {
+            const date = new Date(workout.date).toDateString();
+            return (
+              <div className="workout">
+                <p>{index + 1}:</p>
+                <p>{date}</p>
+                <p>Total volume: {workout.volume}</p>
+                <p>Exercises performed: {workout.exercises.length}</p>
+                <Button
+                  classes={['standard-btn']}
+                  buttonText="Show Details"
+                  key={index}
+                  onClick={() => openWorkoutDetailsModal(workout)}
+                />
+              </div>
+            );
+          })}
+          {selectedWorkout && (
+            <Modal
+              classes={['workout-details-modal']}
+              onClose={closeWorkoutDetailsModal}
+            >
+              <button
+                className="modal-close"
+                onClick={closeWorkoutDetailsModal}
+              >
+                <CgClose />
+              </button>
+              <WorkoutDetails
+                exerciseMap={exerciseMap}
+                workout={selectedWorkout}
+              />
+            </Modal>
+          )}
         </div>
       )}
     </div>
